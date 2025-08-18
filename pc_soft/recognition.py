@@ -8,7 +8,9 @@ def answer(rec, audio):
         text = rec.recognize_google(audio, language="ru-RU").lower()
         print(text)
         if "привет" in text:
-            frimware.write("hi")
+            frimware.write(b"1\n")
+        if "пока" in text:
+            frimware.write(b"2\n")
 
     except sr.UnknownValueError:
         print("Ничего не понял, повтори")
