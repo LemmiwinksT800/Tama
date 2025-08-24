@@ -1,23 +1,41 @@
 #include <Arduino.h>
-#include <DFPlayerMini_Fast.h>
-#include <SoftwareSerial.h>
-SoftwareSerial Ser(3, 2);
-DFPlayerMini_Fast Mp3;
+#include <pictures.hpp>
+#define CLK 11
+#define OE   9
+#define LAT 10
+
+#define A   A0
+#define B   A1
+#define C   A2
+#define D   A3
+
+RGBmatrixPanel matrix(A, B, C, D, CLK, LAT, OE, true, 64);
+
 void setup() {
-  Serial.begin(9600);  
-  Ser.begin(9600);
-  Mp3.begin(Ser);
-  Mp3.volume(20);
+  matrix.begin();
 }
+
 void loop() {
-  if (Serial.available()) {
-    String cmd = Serial.readStringUntil('\n');
-    cmd.trim();
-    if (cmd == "1") {
-      Mp3.play(1);
+  matrix.setCursor(0, 0);
+  matrix.drawRGBBitmap(0,  0, standart, 64, 32);
+  matrix.swapBuffers(false);
+  int scenary = rand() % 3;
+  if (scenary == 0){
+    for (size_t index_frame = 0; index_frame < sizeof(s) / sizeof(s[0]); ++index_frame)
+    {
+      matrix.drawRGBBitmap(0, 0, s[index_frame], 64, 32);
+      matrix.swapBuffers(false);
     }
-    else if (cmd == "2") {
-      Mp3.play(2);
+  }
+  else if (scenary == 1){
+    for (size_t index_frame = 0; index_frame < sizeof(s1) / sizeof(s1[0]); ++index_frame)
+    {
+      matrix.drawRGBBitmap(0, 0, s1[index_frame], 64, 32);
+      matrix.swapBuffers(false);
     }
+  }
+  else if (scenary == 2){
+      matrix.drawRGBBitmap(0, 0, standart, 64, 32);
+      matrix.swapBuffers(false);
   }
 }
