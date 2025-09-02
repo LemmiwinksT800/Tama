@@ -3,7 +3,6 @@
 #include <SoftwareSerial.h>
 #include <SoundManager.hpp>
 #include <DisplayManager.hpp>
-
 #define CLK 11
 #define OE   9
 #define LAT 10
@@ -30,10 +29,11 @@ void loop() {
     cmd.trim();
     if (cmd == "1") {
       MP3.play(1);
-      display.writeText("hello!", 0xb788);
+      display.writeText("Hello!", 0xb788);
     }
     else if (cmd == "2") {
       MP3.play(2);
+      display.writeText("Bye!", 0xb788);
     }
   }
 }
