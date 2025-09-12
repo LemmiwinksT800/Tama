@@ -15,7 +15,12 @@ public:
     DisplayManager(RGBmatrixPanel& mat);
     ~DisplayManager();
     void drawFace();
-    void drawFace(const Frames frames);
+    void drawFace(const uint16_t* face_frame);
+    void drawFace(const uint16_t* face_frame, const Frames mouth_frames);
+    void drawFace(const uint16_t* face_frame, const uint16_t* mouth_frame);
+    void drawFace(const Frames face_frames);
+    void drawFace(const Frames face_frames, const Frames mouth_frames);
+    void drawFace(const Frames face_frames, const uint16_t* mouth_frame);
     void writeText(const char* text, uint16_t color);
     void writeText();
 };

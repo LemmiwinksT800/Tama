@@ -2,7 +2,8 @@ import time
 import os
 import speech_recognition as sr
 import serial
-frimware = serial.Serial("COM3", 9600)
+port = input("В каком порту подключена панель? Напиши только номер:")
+frimware = serial.Serial(f"COM{port}", 9600)
 def answer(rec, audio):
     try:
         text = rec.recognize_google(audio, language="ru-RU").lower()

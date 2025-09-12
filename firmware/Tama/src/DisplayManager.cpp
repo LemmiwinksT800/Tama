@@ -3,10 +3,11 @@ DisplayManager::DisplayManager(RGBmatrixPanel& mat): matrix(mat){}
 DisplayManager::~DisplayManager()
 {
 }
-void DisplayManager::drawFace(const Frames frames){
-    for (size_t index_frame = 0; index_frame < frames.count; ++index_frame)
+void DisplayManager::drawFace(const uint16_t* face_frame){
+    for (size_t index_frame = 0; index_frame < 11; ++index_frame)
     {
-        matrix.drawRGBBitmap(0, yPosFace, frames.frames[index_frame], 64, 32);
+        matrix.drawRGBBitmap(0, yPosFace, face_frame, 64, 32);
+        matrix.drawRGBBitmap(23, 20 + yPosFace, Pictures::mouth, 18, 12);
         if (textFramesLeft)
         {
             --textFramesLeft;
@@ -18,14 +19,111 @@ void DisplayManager::drawFace(const Frames frames){
             breath = breathFramesCount;
             yPosFace = yPosFace % 2 == 0;
         }
+        matrix.fillScreen(0);
+    }
+}
+void DisplayManager::drawFace(const uint16_t* face_frame, const Frames mouth_frames){
+    for (size_t index_frame = 0; index_frame < 11; ++index_frame)
+    {
+        matrix.drawRGBBitmap(0, yPosFace, face_frame, 64, 32);
+        matrix.drawRGBBitmap(23, 20 + yPosFace, mouth_frames.frames[index_frame], 18, 12);
+        if (textFramesLeft)
+        {
+            --textFramesLeft;
+            writeText();
+        }
+        matrix.swapBuffers(false);
+        --breath;
+        if (!breath){
+            breath = breathFramesCount;
+            yPosFace = yPosFace % 2 == 0;
+        }
+        matrix.fillScreen(0);
+    }
+}
+void DisplayManager::drawFace(const uint16_t* face_frame, const uint16_t* mouth_frame){
+    for (size_t index_frame = 0; index_frame < 11; ++index_frame)
+    {
+        matrix.drawRGBBitmap(0, yPosFace, face_frame, 64, 32);
+        matrix.drawRGBBitmap(23, 20 + yPosFace, mouth_frame, 18, 12);
+        if (textFramesLeft)
+        {
+            --textFramesLeft;
+            writeText();
+        }
+        matrix.swapBuffers(false);
+        --breath;
+        if (!breath){
+            breath = breathFramesCount;
+            yPosFace = yPosFace % 2 == 0;
+        }
+        matrix.fillScreen(0);
+    }
+}
+void DisplayManager::drawFace(const Frames face_frames){
+    for (size_t index_frame = 0; index_frame < face_frames.count; ++index_frame)
+    {
+        matrix.drawRGBBitmap(0, yPosFace, face_frames.frames[index_frame], 64, 32);
+        matrix.drawRGBBitmap(23, 20 + yPosFace, Pictures::mouth, 18, 12);
+        if (textFramesLeft)
+        {
+            --textFramesLeft;
+            writeText();
+        }
+        matrix.swapBuffers(false);
+        --breath;
+        if (!breath){
+            breath = breathFramesCount;
+            yPosFace = yPosFace % 2 == 0;
+        }
+        matrix.fillScreen(0);
+    }
+}
+void DisplayManager::drawFace(const Frames face_frames, const Frames mouth_frames){
+    for (size_t index_frame = 0; index_frame < face_frames.count; ++index_frame)
+    {
+        matrix.drawRGBBitmap(0, yPosFace, face_frames.frames[index_frame], 64, 32);
+        matrix.drawRGBBitmap(23, 20 + yPosFace, mouth_frames.frames[index_frame], 18, 12);
+        if (textFramesLeft)
+        {
+            --textFramesLeft;
+            writeText();
+        }
+        matrix.swapBuffers(false);
+        --breath;
+        if (!breath){
+            breath = breathFramesCount;
+            yPosFace = yPosFace % 2 == 0;
+        }
+        matrix.fillScreen(0);
+    }
+}
+void DisplayManager::drawFace(const Frames face_frames, const uint16_t* mouth_frame){
+    for (size_t index_frame = 0; index_frame < face_frames.count; ++index_frame)
+    {
+        matrix.drawRGBBitmap(0, yPosFace, face_frames.frames[index_frame], 64, 32);
+        matrix.drawRGBBitmap(23, 20 + yPosFace, mouth_frame, 18, 12);
+        if (textFramesLeft)
+        {
+            --textFramesLeft;
+            writeText();
+        }
+        matrix.swapBuffers(false);
+        --breath;
+        if (!breath){
+            breath = breathFramesCount;
+            yPosFace = yPosFace % 2 == 0;
+        }
+        matrix.fillScreen(0);
     }
 }
 void DisplayManager::drawFace(){
     matrix.setCursor(0, 0);
-    matrix.drawRGBBitmap(0,  yPosFace, Pictures::standart, 64, 32);
+    matrix.drawRGBBitmap(0,  yPosFace, Pictures::standartFrame, 64, 32);
+    matrix.drawRGBBitmap(23,  20 + yPosFace, Pictures::mouth, 18, 12);
     matrix.swapBuffers(false);
 
-    int scenary = rand() % 3;
+    int scenary = rand() % 4;
     switch (scenary)
     {
     case 0:
@@ -34,9 +132,11 @@ void DisplayManager::drawFace(){
     case 1:
         drawFace(Pictures::look_away);
         break;
+    case 2:
+        drawFace(Pictures::funny_eyes, Pictures::standart_speak);
+        break;
     default:
-        matrix.drawRGBBitmap(0, yPosFace, Pictures::standart, 64, 32);
-        matrix.swapBuffers(false);
+        drawFace(Pictures::standart);
         break;
     }
 }
