@@ -1,27 +1,26 @@
-import time
-import os
 import speech_recognition as sr
 import serial
-port = input("В каком порту подключена панель? Напиши только номер:")
-frimware = serial.Serial(f"COM{port}", 9600)
-def answer(rec, audio):
-    try:
-        text = rec.recognize_google(audio, language="ru-RU").lower()
-        print(text)
-        if "привет" in text:
-            frimware.write(b"1\n")
-        if "пока" in text:
-            frimware.write(b"2\n")
 
-    except sr.UnknownValueError:
-        print("Ничего не понял, повтори")
+def start_recognition(com_port):
+    firmware = serial.Serial(com_port, 9600, timeout=1)
+    r = sr.Recognizer()
+    mic = sr.Microphone()
+    with mic as source:
+        r.adjust_for_ambient_noise(source)
 
-r = sr.Recognizer()
-m = sr.Microphone()
+    def callback(recognizer, audio):
+        try:
+            text = recognizer.recognize_google(audio, language="ru-RU").lower()
+            print(f"VOICE: {text}", flush=True)
 
-with m as source:
-    r.adjust_for_ambient_noise(source)
-listening = r.listen_in_background(m, answer)
-#for _ in range(100): time.sleep(0.1)
-# listening(wait_for_stop=False)
-while True: time.sleep(0.1)
+            if "привет" in text:
+                firmware.write(b"1\n")
+            elif "пока" in text:
+                firmware.write(b"2\n")
+
+        except sr.UnknownValueError:
+            pass
+        except Exception as e:
+            print(f"Speech error: {e}", flush=True)
+    stop_listening = r.listen_in_background(mic, callback)
+    return stop_listening
