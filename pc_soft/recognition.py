@@ -17,6 +17,17 @@ def start_recognition(com_port):
                 firmware.write(b"1\n")
             elif "пока" in text:
                 firmware.write(b"2\n")
+            elif "русс" in text:
+                firmware.write(b"4\n")
+            elif "меняй" in text:
+                firmware.write(b"5\n")
+            elif "музык" in text:
+                firmware.write(b"6\n")
+            elif "лучше" in text:
+                firmware.write(b"7\n")
+            else :
+                firmware.write(b"3\n")
+                
 
         except sr.UnknownValueError:
             pass

@@ -132,9 +132,6 @@ void DisplayManager::drawFace(){
     case 1:
         drawFace(Pictures::look_away);
         break;
-    case 2:
-        drawFace(Pictures::funny_eyes, Pictures::standart_speak);
-        break;
     default:
         drawFace(Pictures::standart);
         break;

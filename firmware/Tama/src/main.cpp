@@ -27,13 +27,44 @@ void loop() {
   if (Serial.available()) {
     String cmd = Serial.readStringUntil('\n');
     cmd.trim();
-    if (cmd == "1") {
+    int num = cmd.toInt();
+    switch (num)
+    {
+    case 1:
       MP3.play(1);
       display.writeText("Hello!", 0xb788);
-    }
-    else if (cmd == "2") {
+      display.drawFace(Pictures::standart, Pictures::standart_speak);
+      break;
+    case 2:
       MP3.play(2);
       display.writeText("Bye!", 0xb788);
+      display.drawFace(Pictures::standart, Pictures::standart_speak);
+      break;
+    case 4:
+      MP3.play(4);
+      display.writeText("ENGLISH!!!", 0xb788);
+      display.drawFace(Pictures::funny_eyes, Pictures::hmm_speak);
+      break;
+    case 5:
+      MP3.play(5);
+      display.writeText("Yeah!", 0xb788);
+      display.drawFace(Pictures::cute_eyes, Pictures::standart_speak);
+      break;
+    case 6:
+      MP3.play(6);
+      display.writeText("Yeah!", 0xb788);
+      display.drawFace(Pictures::cute_eyes, Pictures::mouth);
+      break;
+    case 7:
+      MP3.play(7);
+      display.writeText("POWER!", 0xb788);
+      display.drawFace(Pictures::cute_eyes, Pictures::standart_speak);
+      break;
+    default:
+      MP3.play(3);
+      display.writeText("What?!", 0xb788);
+      display.drawFace(Pictures::cute_eyes, Pictures::hmm_speak);
+      break;
     }
   }
 }
