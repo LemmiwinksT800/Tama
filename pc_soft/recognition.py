@@ -12,21 +12,21 @@ def start_recognition(com_port):
         try:
             text = recognizer.recognize_google(audio, language="ru-RU").lower()
             print(f"VOICE: {text}", flush=True)
-
-            if "привет" in text:
-                firmware.write(b"1\n")
-            elif "пока" in text:
-                firmware.write(b"2\n")
-            elif "русс" in text:
-                firmware.write(b"4\n")
-            elif "меняй" in text:
-                firmware.write(b"5\n")
-            elif "музык" in text:
-                firmware.write(b"6\n")
-            elif "лучше" in text:
-                firmware.write(b"7\n")
-            else :
-                firmware.write(b"3\n")
+            if "тама" in text:
+                if "привет" in text:
+                    firmware.write(b"1\n")
+                elif "пока" in text:
+                    firmware.write(b"2\n")
+                elif "русс" in text:
+                    firmware.write(b"4\n")
+                elif "меняй" in text:
+                    firmware.write(b"5\n")
+                elif "музык" in text:
+                    firmware.write(b"6\n")
+                elif "лучше" in text:
+                    firmware.write(b"7\n")
+                else :
+                    firmware.write(b"3\n")
                 
 
         except sr.UnknownValueError:
